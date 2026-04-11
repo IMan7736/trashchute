@@ -4,28 +4,27 @@ import { useEffect, useRef } from 'react';
 
 export default function CheeseBg() {
   const canvasRef = useRef(null);
+  const animFrameRef = useRef(null);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
+  function startAnimation(canvas) {
     const ctx = canvas.getContext('2d');
-    let animFrame;
     let time = 0;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
     function resize() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     }
-    resize();
     window.addEventListener('resize', resize);
 
-    // Binary columns
     const fontSize = 14;
     let columns = Math.floor(canvas.width / fontSize);
     let drops = Array(columns).fill(0).map(() => Math.random() * -100);
     let opacities = Array(columns).fill(0).map(() => Math.random() * 0.15 + 0.03);
 
-    // Fog blobs
-    const blobs = Array.from({ length: 6 }, (_, i) => ({
+    const blobs = Array.from({ length: 6 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       vx: (Math.random() - 0.5) * 0.3,
@@ -35,7 +34,6 @@ export default function CheeseBg() {
       alpha: 0.03 + Math.random() * 0.04,
     }));
 
-    // Glitch state
     let glitchTimer = 0;
     let glitchActive = false;
     let glitchLines = [];
@@ -56,11 +54,9 @@ export default function CheeseBg() {
       time++;
       columns = Math.floor(canvas.width / fontSize);
 
-      // Dark base
       ctx.fillStyle = 'rgba(10, 14, 26, 0.08)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Fog blobs
       blobs.forEach(blob => {
         blob.x += blob.vx;
         blob.y += blob.vy;
@@ -78,14 +74,12 @@ export default function CheeseBg() {
         ctx.fill();
       });
 
-      // Binary rain
       ctx.font = `${fontSize}px monospace`;
       for (let i = 0; i < columns; i++) {
         const char = Math.random() > 0.5 ? '1' : '0';
         const alpha = opacities[i] || 0.05;
         ctx.fillStyle = `rgba(100, 120, 255, ${alpha})`;
         ctx.fillText(char, i * fontSize, drops[i] * fontSize);
-
         if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
           drops[i] = 0;
           opacities[i] = Math.random() * 0.12 + 0.02;
@@ -93,14 +87,12 @@ export default function CheeseBg() {
         drops[i] += 0.4;
       }
 
-      // Glitch trigger
       glitchTimer++;
       if (glitchTimer > 180 && Math.random() > 0.97) {
         triggerGlitch();
         glitchTimer = 0;
       }
 
-      // Glitch lines
       if (glitchActive) {
         glitchLines.forEach(line => {
           const imageData = ctx.getImageData(0, line.y, canvas.width * line.width, line.h);
@@ -110,14 +102,42 @@ export default function CheeseBg() {
         });
       }
 
-      animFrame = requestAnimationFrame(draw);
+      animFrameRef.current = requestAnimationFrame(draw);
     }
 
     draw();
 
     return () => {
-      cancelAnimationFrame(animFrame);
+      cancelAnimationFrame(animFrameRef.current);
       window.removeEventListener('resize', resize);
+    };
+  }
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    let cleanup = startAnimation(canvas);
+
+    function handleVisibility() {
+      if (document.visibilityState === 'visible') {
+        cancelAnimationFrame(animFrameRef.current);
+        cleanup();
+        cleanup = startAnimation(canvas);
+      }
+    }
+
+    function handlePageShow(e) {
+      cancelAnimationFrame(animFrameRef.current);
+      cleanup();
+      cleanup = startAnimation(canvas);
+    }
+
+    document.addEventListener('visibilitychange', handleVisibility);
+    window.addEventListener('pageshow', handlePageShow);
+
+    return () => {
+      cleanup();
+      document.removeEventListener('visibilitychange', handleVisibility);
+      window.removeEventListener('pageshow', handlePageShow);
     };
   }, []);
 
@@ -132,6 +152,7 @@ export default function CheeseBg() {
         height: '100%',
         zIndex: 0,
         pointerEvents: 'none',
+        background: '#0a0e1a',
       }}
     />
   );

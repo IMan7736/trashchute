@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import BentoGrid from './components/BentoGrid';
 
 export default function Home() {
   return (
@@ -97,8 +98,7 @@ export default function Home() {
           Tools
         </motion.h2>
 
-        {/* Bento grid goes here */}
-        <p style={{ color: 'rgba(255,255,255,0.2)' }}>coming soon...</p>
+        <BentoGrid />
       </section>
     </main>
   );
