@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 
 export default function Todos() {
   const [todos, setTodos] = useState([]);
@@ -37,18 +36,6 @@ export default function Todos() {
       justifyContent: 'center',
       padding: '2rem',
     }}>
-      <Link href="/" style={{
-        position: 'fixed',
-        top: '2rem',
-        left: '2rem',
-        color: 'rgba(255,255,255,0.4)',
-        textDecoration: 'none',
-        fontSize: '0.9rem',
-        letterSpacing: '0.1em',
-      }}>
-        ← TrashChute
-      </Link>
-
       <div style={{
         background: 'rgba(255,255,255,0.04)',
         backdropFilter: 'blur(20px)',
