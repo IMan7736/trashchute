@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { RISKY_QUESTS } from './riskyQuests';
 
 const CATEGORIES = ['education', 'recreational', 'social', 'diy', 'charity', 'cooking', 'relaxation', 'music', 'busywork'];
@@ -104,19 +103,6 @@ export default function QuestGenerator() {
           animation: 'riskyIn 0.5s ease forwards',
         }} />
       )}
-
-      <Link href="/" style={{
-        position: 'fixed',
-        top: '2rem',
-        left: '2rem',
-        color: risky ? 'rgba(255,100,100,0.5)' : 'rgba(255,255,255,0.4)',
-        textDecoration: 'none',
-        fontSize: '0.9rem',
-        letterSpacing: '0.1em',
-        zIndex: 10,
-      }}>
-        ← TrashChute
-      </Link>
 
       <button
         onClick={() => setShowCompleted(s => !s)}

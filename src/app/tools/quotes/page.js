@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 
 export default function QuoteGenerator() {
   const [quote, setQuote] = useState(null);
@@ -61,18 +60,6 @@ export default function QuoteGenerator() {
       position: 'relative',
       zIndex: 1,
     }}>
-      <Link href="/" style={{
-        position: 'fixed',
-        top: '2rem',
-        left: '2rem',
-        color: 'rgba(255,255,255,0.4)',
-        textDecoration: 'none',
-        fontSize: '0.9rem',
-        letterSpacing: '0.1em',
-      }}>
-        ← TrashChute
-      </Link>
-
       {/* Favorites toggle */}
       <button
         onClick={() => setShowFavorites(s => !s)}

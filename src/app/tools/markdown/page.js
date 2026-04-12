@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 
 const DEFAULT = `# Welcome to Markdown Previewer
 
@@ -80,17 +79,6 @@ export default function MarkdownPreviewer() {
       position: 'relative',
       zIndex: 1,
     }}>
-      <Link href="/" style={{
-        color: 'rgba(255,255,255,0.4)',
-        textDecoration: 'none',
-        fontSize: '0.9rem',
-        letterSpacing: '0.1em',
-        marginBottom: '1.5rem',
-        display: 'inline-block',
-      }}>
-        ← TrashChute
-      </Link>
-
       {/* Header */}
       <div style={{
         display: 'flex',

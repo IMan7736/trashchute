@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 
 const DICE = [
   { sides: 4, label: 'D4', shape: 'triangle' },
@@ -112,18 +111,6 @@ export default function DiceCoin() {
       zIndex: 1,
       gap: '3rem',
     }}>
-      <Link href="/" style={{
-        position: 'fixed',
-        top: '2rem',
-        left: '2rem',
-        color: 'rgba(255,255,255,0.4)',
-        textDecoration: 'none',
-        fontSize: '0.9rem',
-        letterSpacing: '0.1em',
-      }}>
-        ← TrashChute
-      </Link>
-
       <h1 style={{
         fontSize: '1.8rem',
         fontWeight: 600,

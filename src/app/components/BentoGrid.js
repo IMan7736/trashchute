@@ -4,15 +4,15 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 const tools = [
-  { name: 'Todo', description: 'Crack your tasks', href: '/tools/todo', size: 'large' },
-  { name: 'Pomodoro', description: 'Stay focused', href: '/tools/pomodoro', size: 'small' },
-  { name: 'Password Generator', description: 'Stay secure', href: '/tools/password', size: 'small' },
-  { name: 'Markdown Previewer', description: 'Write and preview', href: '/tools/markdown', size: 'large' },
-  { name: 'Quote Generator', description: 'Get inspired', href: '/tools/quotes', size: 'small' },
-  { name: 'Quest Generator', description: 'Find something to do', href: '/tools/quest', size: 'small' },
-  { name: 'Dice & Coin', description: 'Leave it to chance', href: '/tools/dice', size: 'small' },
-  { name: 'UUID Generator', description: 'Unique IDs instantly', href: '/tools/uuid', size: 'small' },
-  { name: 'Image Converter', description: 'Convert anything', href: '/tools/image', size: 'large' },
+  { name: 'Todo', description: 'Crack your tasks', href: '/tools/todo', size: 'large', illustration: '/illustrations/todo.svg' },
+  { name: 'Pomodoro', description: 'Stay focused', href: '/tools/pomodoro', size: 'small', illustration: '/illustrations/pomodoro.svg' },
+  { name: 'Password Generator', description: 'Stay secure', href: '/tools/password', size: 'small', illustration: '/illustrations/password.svg' },
+  { name: 'Markdown Previewer', description: 'Write and preview', href: '/tools/markdown', size: 'large', illustration: '/illustrations/markdown.svg' },
+  { name: 'Quote Generator', description: 'Get inspired', href: '/tools/quotes', size: 'small', illustration: '/illustrations/quotes.svg' },
+  { name: 'Quest Generator', description: 'Find something to do', href: '/tools/quest', size: 'small', illustration: '/illustrations/quest.svg' },
+  { name: 'Dice & Coin', description: 'Leave it to chance', href: '/tools/dice', size: 'small', illustration: '/illustrations/dice.svg' },
+  { name: 'UUID Generator', description: 'Unique IDs instantly', href: '/tools/uuid', size: 'small', illustration: '/illustrations/uuid.svg' },
+  { name: 'Image Converter', description: 'Convert anything', href: '/tools/image', size: 'large', illustration: '/illustrations/image.svg' },
 ];
 
 const cardVariants = {
@@ -67,17 +67,20 @@ export default function BentoGrid() {
                 overflow: 'hidden',
               }}
             >
-              {/* SVG illustration placeholder */}
-              <div style={{
-                position: 'absolute',
-                right: '1.5rem',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                opacity: 0.15,
-                fontSize: '5rem',
-              }}>
-                🗑️
-              </div>
+              <img
+                src={tool.illustration}
+                alt={tool.name}
+                style={{
+                  position: 'absolute',
+                  right: '1.5rem',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  width: tool.size === 'large' ? '120px' : '80px',
+                  height: 'auto',
+                  opacity: 0.15,
+                  pointerEvents: 'none',
+                }}
+              />
 
               <div>
                 <h3 style={{

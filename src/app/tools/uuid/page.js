@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 
 function generateUUID() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
@@ -70,18 +69,6 @@ export default function UUIDGenerator() {
       position: 'relative',
       zIndex: 1,
     }}>
-      <Link href="/" style={{
-        position: 'fixed',
-        top: '2rem',
-        left: '2rem',
-        color: 'rgba(255,255,255,0.4)',
-        textDecoration: 'none',
-        fontSize: '0.9rem',
-        letterSpacing: '0.1em',
-      }}>
-        ← TrashChute
-      </Link>
-
       <div style={{
         background: 'rgba(255,255,255,0.04)',
         backdropFilter: 'blur(20px)',
