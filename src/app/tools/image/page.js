@@ -49,13 +49,42 @@ export default function ImageConverter() {
       const canvas = canvasRef.current;
 
       if (outputFormat === 'ICO') {
-        canvas.width = 256;
-        canvas.height = 256;
-      } else {
-        canvas.width = Math.round(img.width * scale / 100);
-        canvas.height = Math.round(img.height * scale / 100);
+        import('ico-endec').then(async ({ encode }) => {
+          const sizes = [16, 32, 48, 256];
+
+          const buffers = await Promise.all(sizes.map(size => {
+            return new Promise(resolve => {
+              const c = document.createElement('canvas');
+              c.width = size;
+              c.height = size;
+              const cx = c.getContext('2d');
+
+              // Crop to center square
+              const srcSize = Math.min(img.width, img.height);
+              const srcX = (img.width - srcSize) / 2;
+              const srcY = (img.height - srcSize) / 2;
+
+              cx.drawImage(img, srcX, srcY, srcSize, srcSize, 0, 0, size, size);
+
+              c.toBlob(blob => {
+                blob.arrayBuffer().then(resolve);
+              }, 'image/png');
+            });
+          }));
+
+          const icoBuffer = encode(buffers);
+          const blob = new Blob([icoBuffer], { type: 'image/x-icon' });
+          setConvertedSize((blob.size / 1024).toFixed(1));
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'converted.ico';
+          a.click();
+          URL.revokeObjectURL(url);
+          setConverting(false);
+        });
+        return;
       }
-      const ctx = canvas.getContext('2d');
 
       if (outputFormat === 'JPEG') {
         ctx.fillStyle = '#ffffff';
