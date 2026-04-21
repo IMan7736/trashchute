@@ -1,4 +1,4 @@
-# 🗑️ TrashChute
+#  TrashChute
 
 > *Do whatever you'd like.*
 
