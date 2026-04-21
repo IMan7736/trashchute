@@ -10,14 +10,14 @@
 | Tool | Description |
 |------|-------------|
 | ✦ Todo | Task list with localStorage persistence |
-| 🍅 Pomodoro | Focus timer with forest wallpaper, custom wallpaper support, and session tracking |
-| 🔐 Password Generator | Generates secure passwords with strength indicator and custom options |
-| 📝 Markdown Previewer | Live markdown editor with split, editor, and preview modes |
-| 💬 Quote Generator | Random advice quotes with save to favorites |
-| ⚔️ Quest Generator | Random activity generator powered by the Bored API — includes an additional mode |
-| 🎲 Dice & Coin | Roll any dice (D4 to D100) and flip a coin with history tracking |
-| 🔑 UUID Generator | Generate UUIDs, Short IDs, Nano IDs, and Hex strings in bulk |
-| 🖼️ Image Converter | Convert images between PNG, JPEG, WEBP, BMP and ICO with quality and scale controls |
+|  Pomodoro | Focus timer with forest wallpaper, custom wallpaper support, and session tracking |
+|  Password Generator | Generates secure passwords with strength indicator and custom options |
+|  Markdown Previewer | Live markdown editor with split, editor, and preview modes |
+|  Quote Generator | Random advice quotes with save to favorites |
+|  Quest Generator | Random activity generator powered by the Bored API — includes an additional mode |
+|  Dice & Coin | Roll any dice (D4 to D100) and flip a coin with history tracking |
+|  UUID Generator | Generate UUIDs, Short IDs, Nano IDs, and Hex strings in bulk |
+|  Image Converter | Convert images between PNG, JPEG, WEBP, BMP and ICO with quality and scale controls |
 
 ---
 
