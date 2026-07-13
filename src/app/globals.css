@@ -12,10 +12,46 @@ body {
   background-color: #0a0e1a;
   color: #ffffff;
   font-family: 'Segoe UI', sans-serif;
+  line-height: 1.5;
   overflow-x: hidden;
 }
 
 .page-content {
   position: relative;
   z-index: 1;
+}
+
+/* Focus states — visible ring using the theme's accent color, keyboard-only */
+button, a, input, textarea, select, [tabindex] {
+  outline: none;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #a0a8ff;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Press feedback for buttons (inline transitions still take priority where set) */
+button {
+  transition: transform 0.15s ease-out;
+}
+
+button:not(:disabled):active {
+  transform: scale(0.97);
+}
+
+/* Respect reduced motion preference across all animations/transitions */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

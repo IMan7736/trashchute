@@ -1,10 +1,10 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import Link from 'next/link';
 
 const tools = [
-  { name: 'Todo', description: 'Crack your tasks', href: '/tools/todo', size: 'large', illustration: '/illustrations/todo.svg' },
+  { name: 'Todo', description: 'Rid your tasks', href: '/tools/todo', size: 'large', illustration: '/illustrations/todo.svg' },
   { name: 'Pomodoro', description: 'Stay focused', href: '/tools/pomodoro', size: 'small', illustration: '/illustrations/pomodoro.svg' },
   { name: 'Password Generator', description: 'Stay secure', href: '/tools/password', size: 'small', illustration: '/illustrations/password.svg' },
   { name: 'Markdown Previewer', description: 'Write and preview', href: '/tools/markdown', size: 'large', illustration: '/illustrations/markdown.svg' },
@@ -15,20 +15,22 @@ const tools = [
   { name: 'Image Converter', description: 'Convert anything', href: '/tools/image', size: 'large', illustration: '/illustrations/image.svg' },
 ];
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 60 },
-  visible: (i) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.1,
-      duration: 0.6,
-      ease: 'easeOut',
-    },
-  }),
-};
-
 export default function BentoGrid() {
+  const shouldReduceMotion = useReducedMotion();
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 60 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: shouldReduceMotion ? 0 : i * 0.1,
+        duration: shouldReduceMotion ? 0.01 : 0.6,
+        ease: 'easeOut',
+      },
+    }),
+  };
+
   return (
     <div style={{
       display: 'grid',
@@ -50,8 +52,8 @@ export default function BentoGrid() {
         >
           <Link href={tool.href} style={{ textDecoration: 'none' }}>
             <motion.div
-              whileHover={{ scale: 1.02, borderColor: 'rgba(100, 120, 255, 0.4)' }}
-              transition={{ duration: 0.2 }}
+              whileHover={{ scale: shouldReduceMotion ? 1 : 1.02, borderColor: 'rgba(100, 120, 255, 0.4)' }}
+              transition={{ duration: shouldReduceMotion ? 0.01 : 0.2 }}
               style={{
                 background: 'rgba(255, 255, 255, 0.03)',
                 backdropFilter: 'blur(20px)',
@@ -100,8 +102,9 @@ export default function BentoGrid() {
               </div>
 
               <motion.div
-                initial={{ x: -10, opacity: 0 }}
+                initial={{ x: shouldReduceMotion ? 0 : -10, opacity: shouldReduceMotion ? 0.6 : 0.35 }}
                 whileHover={{ x: 0, opacity: 1 }}
+                transition={{ duration: shouldReduceMotion ? 0.01 : 0.2 }}
                 style={{
                   fontSize: '0.85rem',
                   color: 'rgba(100, 120, 255, 0.8)',

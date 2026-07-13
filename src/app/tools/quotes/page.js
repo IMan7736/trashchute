@@ -98,7 +98,7 @@ export default function QuoteGenerator() {
           textAlign: 'center',
         }}>
           <h1 style={{
-            fontSize: '1.4rem',
+            fontSize: '1.8rem',
             fontWeight: 600,
             background: 'linear-gradient(135deg, #ffffff 0%, #a0a8ff 100%)',
             WebkitBackgroundClip: 'text',

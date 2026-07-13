@@ -131,7 +131,7 @@ export default function UUIDGenerator() {
               <button
                 onClick={() => setCount(c => Math.max(1, c - 1))}
                 style={{
-                  width: '28px', height: '28px',
+                  width: '44px', height: '44px',
                   borderRadius: '50%',
                   border: '1px solid rgba(255,255,255,0.1)',
                   background: 'transparent',
@@ -144,7 +144,7 @@ export default function UUIDGenerator() {
               <button
                 onClick={() => setCount(c => Math.min(20, c + 1))}
                 style={{
-                  width: '28px', height: '28px',
+                  width: '44px', height: '44px',
                   borderRadius: '50%',
                   border: '1px solid rgba(255,255,255,0.1)',
                   background: 'transparent',

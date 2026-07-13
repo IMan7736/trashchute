@@ -8,21 +8,11 @@ export default function CheeseBg() {
 
   function startAnimation(canvas) {
     const ctx = canvas.getContext('2d');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let time = 0;
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-
-    function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resize);
-
-    const fontSize = 14;
-    let columns = Math.floor(canvas.width / fontSize);
-    let drops = Array(columns).fill(0).map(() => Math.random() * -100);
-    let opacities = Array(columns).fill(0).map(() => Math.random() * 0.15 + 0.03);
 
     const blobs = Array.from({ length: 6 }, () => ({
       x: Math.random() * canvas.width,
@@ -33,6 +23,41 @@ export default function CheeseBg() {
       hue: 220 + Math.random() * 40,
       alpha: 0.03 + Math.random() * 0.04,
     }));
+
+    function drawStatic() {
+      ctx.fillStyle = '#0a0e1a';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      blobs.forEach(blob => {
+        const grad = ctx.createRadialGradient(blob.x, blob.y, 0, blob.x, blob.y, blob.r);
+        grad.addColorStop(0, `hsla(${blob.hue}, 60%, 40%, ${blob.alpha})`);
+        grad.addColorStop(1, `hsla(${blob.hue}, 60%, 20%, 0)`);
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(blob.x, blob.y, blob.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      if (reduceMotion) drawStatic();
+    }
+    window.addEventListener('resize', resize);
+
+    // Reduced motion: paint one calm static frame (ambient blobs only) and stop —
+    // no binary rain, no glitch flicker, no continuous rAF loop.
+    if (reduceMotion) {
+      drawStatic();
+      return () => {
+        window.removeEventListener('resize', resize);
+      };
+    }
+
+    const fontSize = 14;
+    let columns = Math.floor(canvas.width / fontSize);
+    let drops = Array(columns).fill(0).map(() => Math.random() * -100);
+    let opacities = Array(columns).fill(0).map(() => Math.random() * 0.15 + 0.03);
 
     let glitchTimer = 0;
     let glitchActive = false;

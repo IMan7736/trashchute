@@ -163,6 +163,15 @@ export default function ImageConverter() {
           onDrop={handleDrop}
           onDragOver={e => e.preventDefault()}
           onClick={() => fileInputRef.current.click()}
+          onKeyDown={e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              fileInputRef.current.click();
+            }
+          }}
+          role="button"
+          tabIndex={0}
+          aria-label="Upload an image"
           style={{
             border: '2px dashed rgba(255,255,255,0.1)',
             borderRadius: '16px',

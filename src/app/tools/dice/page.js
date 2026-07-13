@@ -172,7 +172,7 @@ export default function DiceCoin() {
             <button
               onClick={() => setDiceCount(c => Math.max(1, c - 1))}
               style={{
-                width: '32px', height: '32px',
+                width: '44px', height: '44px',
                 borderRadius: '50%',
                 border: '1px solid rgba(255,255,255,0.1)',
                 background: 'transparent',
@@ -188,7 +188,7 @@ export default function DiceCoin() {
             <button
               onClick={() => setDiceCount(c => Math.min(10, c + 1))}
               style={{
-                width: '32px', height: '32px',
+                width: '44px', height: '44px',
                 borderRadius: '50%',
                 border: '1px solid rgba(255,255,255,0.1)',
                 background: 'transparent',

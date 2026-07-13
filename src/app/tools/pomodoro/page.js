@@ -370,7 +370,7 @@ export default function Pomodoro() {
           transition: 'width 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
           overflow: 'hidden',
           background: 'rgba(0,0,0,0.5)',
-          backdropFilter: 'blur(24px)',
+          backdropFilter: 'blur(20px)',
           borderLeft: '1px solid rgba(255,255,255,0.06)',
           display: 'flex',
           flexDirection: 'column',
@@ -628,7 +628,7 @@ export default function Pomodoro() {
           padding: '10px 18px', borderRadius: '50px',
           border: '1px solid rgba(255,255,255,0.1)',
           background: 'rgba(255,255,255,0.05)',
-          backdropFilter: 'blur(10px)',
+          backdropFilter: 'blur(12px)',
           color: 'rgba(255,255,255,0.5)',
           fontSize: '0.8rem', cursor: 'pointer', letterSpacing: '0.1em',
         }}>🖼 Wallpaper</button>
@@ -637,7 +637,7 @@ export default function Pomodoro() {
             marginLeft: '8px', padding: '10px 18px', borderRadius: '50px',
             border: '1px solid rgba(255,100,100,0.2)',
             background: 'rgba(255,100,100,0.05)',
-            backdropFilter: 'blur(10px)',
+            backdropFilter: 'blur(12px)',
             color: 'rgba(255,100,100,0.5)',
             fontSize: '0.8rem', cursor: 'pointer',
           }}>Reset</button>

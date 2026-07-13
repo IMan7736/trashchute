@@ -1,10 +1,12 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import Link from 'next/link';
 import BentoGrid from './components/BentoGrid';
 
 export default function Home() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <main>
       {/* Hero Section */}
@@ -18,9 +20,9 @@ export default function Home() {
         padding: '0 2rem',
       }}>
         <motion.h1
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
+          transition={{ duration: shouldReduceMotion ? 0.01 : 0.8, ease: 'easeOut' }}
           style={{
             fontSize: 'clamp(3rem, 10vw, 8rem)',
             fontWeight: 700,
@@ -35,9 +37,9 @@ export default function Home() {
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
+          transition={{ duration: shouldReduceMotion ? 0.01 : 0.8, delay: shouldReduceMotion ? 0 : 0.3, ease: 'easeOut' }}
           style={{
             fontSize: 'clamp(1rem, 2.5vw, 1.5rem)',
             color: 'rgba(255,255,255,0.5)',
@@ -51,7 +53,7 @@ export default function Home() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.8 }}
+          transition={{ duration: shouldReduceMotion ? 0.01 : 1, delay: shouldReduceMotion ? 0 : 0.8 }}
           style={{
             display: 'flex',
             flexDirection: 'column',
@@ -66,8 +68,8 @@ export default function Home() {
         >
           <span>SCROLL</span>
           <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+            animate={shouldReduceMotion ? { y: 0 } : { y: [0, 8, 0] }}
+            transition={shouldReduceMotion ? { duration: 0.01 } : { duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
             style={{ fontSize: '1.2rem' }}
           >
             ↓
@@ -83,10 +85,10 @@ export default function Home() {
         margin: '0 auto',
       }}>
         <motion.h2
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: shouldReduceMotion ? 0.01 : 0.6 }}
           style={{
             fontSize: '1rem',
             color: 'rgba(255,255,255,0.3)',

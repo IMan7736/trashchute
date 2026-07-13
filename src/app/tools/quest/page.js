@@ -165,7 +165,7 @@ export default function QuestGenerator() {
               fontSize: '0.85rem',
               cursor: 'pointer',
               letterSpacing: '0.05em',
-              transition: 'all 0.3s',
+              transition: 'all 0.2s',
             }}
           >
             {risky ? '⚠ Risky Mode ON' : '⚠ Risky Mode'}
@@ -314,7 +314,7 @@ export default function QuestGenerator() {
                 fontSize: '0.9rem',
                 cursor: 'pointer',
                 letterSpacing: '0.1em',
-                transition: 'all 0.3s',
+                transition: 'all 0.2s',
               }}
             >
               {quest ? 'New Quest' : risky ? 'I Dare' : 'Get Quest'}
@@ -330,7 +330,7 @@ export default function QuestGenerator() {
                   color: risky ? '#ff4444' : '#00ff88',
                   fontSize: '0.9rem',
                   cursor: 'pointer',
-                  transition: 'all 0.3s',
+                  transition: 'all 0.2s',
                 }}
               >
                 Complete
