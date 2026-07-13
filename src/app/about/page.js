@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 
 export default function About() {
   return (
@@ -23,7 +24,7 @@ export default function About() {
         gap: '8px',
         transition: 'color 0.2s',
       }}>
-        ← Back to TrashChute
+        <ArrowLeft size={16} strokeWidth={2} aria-hidden="true" /> Back to TrashChute
       </Link>
 
       <div style={{

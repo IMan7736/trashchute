@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 
 export default function ToolLayout({ children }) {
   return (
@@ -19,7 +20,7 @@ export default function ToolLayout({ children }) {
         marginBottom: '2rem',
         transition: 'color 0.2s',
       }}>
-        ← Back to TrashChute
+        <ArrowLeft size={16} strokeWidth={2} aria-hidden="true" /> Back to TrashChute
       </Link>
       {children}
     </div>

@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from 'framer-motion';
 import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 
 const tools = [
   { name: 'Todo', description: 'Rid your tasks', href: '/tools/todo', size: 'large', illustration: '/illustrations/todo.svg' },
@@ -109,9 +110,12 @@ export default function BentoGrid() {
                   fontSize: '0.85rem',
                   color: 'rgba(100, 120, 255, 0.8)',
                   marginTop: '1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
                 }}
               >
-                Open →
+                Open <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
               </motion.div>
             </motion.div>
           </Link>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { Star, Check, X } from 'lucide-react';
 
 export default function QuoteGenerator() {
   const [quote, setQuote] = useState(null);
@@ -75,9 +76,12 @@ export default function QuoteGenerator() {
           cursor: 'pointer',
           fontSize: '0.85rem',
           zIndex: 10,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '6px',
         }}
       >
-        ★ Favorites {favorites.length > 0 && `(${favorites.length})`}
+        <Star size={16} strokeWidth={2} aria-hidden="true" /> Favorites {favorites.length > 0 && `(${favorites.length})`}
       </button>
 
       {/* Main quote card */}
@@ -163,9 +167,12 @@ export default function QuoteGenerator() {
                 fontSize: '0.9rem',
                 cursor: 'pointer',
                 transition: 'all 0.2s',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
               }}
             >
-              {isFavorited ? '★ Saved' : '☆ Save'}
+              <Star size={16} strokeWidth={2} fill={isFavorited ? 'currentColor' : 'none'} aria-hidden="true" /> {isFavorited ? 'Saved' : 'Save'}
             </button>
 
             <button
@@ -179,9 +186,12 @@ export default function QuoteGenerator() {
                 fontSize: '0.9rem',
                 cursor: 'pointer',
                 transition: 'all 0.2s',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
               }}
             >
-              {copied ? '✓ Copied' : 'Copy'}
+              {copied ? <><Check size={16} strokeWidth={2} aria-hidden="true" /> Copied</> : 'Copy'}
             </button>
           </div>
         </div>
@@ -204,8 +214,11 @@ export default function QuoteGenerator() {
             fontWeight: 600,
             marginBottom: '1.5rem',
             color: '#ffcc00',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
           }}>
-            ★ Saved Quotes
+            <Star size={20} strokeWidth={2} fill="currentColor" aria-hidden="true" /> Saved Quotes
           </h2>
 
           {favorites.length === 0 ? (
@@ -239,16 +252,18 @@ export default function QuoteGenerator() {
                       setFavorites(updated);
                       localStorage.setItem('favorite-quotes', JSON.stringify(updated));
                     }}
+                    aria-label="Remove from favorites"
                     style={{
                       background: 'none',
                       border: 'none',
                       color: 'rgba(255,100,100,0.5)',
                       cursor: 'pointer',
-                      fontSize: '1rem',
                       flexShrink: 0,
+                      display: 'flex',
+                      alignItems: 'center',
                     }}
                   >
-                    ✕
+                    <X size={16} strokeWidth={2} aria-hidden="true" />
                   </button>
                 </div>
               ))}

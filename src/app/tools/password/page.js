@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import { Check } from 'lucide-react';
 
 const UPPERCASE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const LOWERCASE = 'abcdefghijklmnopqrstuvwxyz';
@@ -141,9 +142,12 @@ export default function PasswordGenerator() {
               letterSpacing: '0.05em',
               transition: 'all 0.2s',
               whiteSpace: 'nowrap',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
             }}
           >
-            {copied ? '✓ Copied' : 'Copy'}
+            {copied ? <><Check size={16} strokeWidth={2} aria-hidden="true" /> Copied</> : 'Copy'}
           </button>
         </div>
 
@@ -225,9 +229,13 @@ export default function PasswordGenerator() {
                 textTransform: 'capitalize',
                 transition: 'all 0.2s',
                 letterSpacing: '0.05em',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '4px',
               }}
             >
-              {val ? '✓ ' : ''}{key}
+              {val && <Check size={16} strokeWidth={2} aria-hidden="true" />}{key}
             </button>
           ))}
         </div>

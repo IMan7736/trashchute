@@ -1,21 +1,30 @@
 'use client';
 
 import { useState } from 'react';
+import {
+  BookOpen, Gamepad2, Users, Wrench, Heart, ChefHat, Flower2, Music, ClipboardList,
+  AlertTriangle, Target, Check, Zap,
+} from 'lucide-react';
 import { RISKY_QUESTS } from './riskyQuests';
 
 const CATEGORIES = ['education', 'recreational', 'social', 'diy', 'charity', 'cooking', 'relaxation', 'music', 'busywork'];
 
 const CATEGORY_ICONS = {
-  education: '📚',
-  recreational: '🎮',
-  social: '👥',
-  diy: '🔧',
-  charity: '❤️',
-  cooking: '🍳',
-  relaxation: '🧘',
-  music: '🎵',
-  busywork: '📋',
+  education: BookOpen,
+  recreational: Gamepad2,
+  social: Users,
+  diy: Wrench,
+  charity: Heart,
+  cooking: ChefHat,
+  relaxation: Flower2,
+  music: Music,
+  busywork: ClipboardList,
 };
+
+function CategoryIcon({ type, size = 16 }) {
+  const Icon = CATEGORY_ICONS[type] || Target;
+  return <Icon size={size} strokeWidth={2} aria-hidden="true" />;
+}
 
 function getDifficultyLabel(accessibility) {
   if (!accessibility) return 'Unknown';
@@ -118,9 +127,12 @@ export default function QuestGenerator() {
           cursor: 'pointer',
           fontSize: '0.85rem',
           zIndex: 10,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '6px',
         }}
       >
-        ✓ Completed {completed.length > 0 && `(${completed.length})`}
+        <Check size={16} strokeWidth={2} aria-hidden="true" /> Completed {completed.length > 0 && `(${completed.length})`}
       </button>
 
       {!showCompleted ? (
@@ -140,17 +152,25 @@ export default function QuestGenerator() {
               style={{
                 fontSize: '1.8rem',
                 fontWeight: 600,
+                letterSpacing: '0.05em',
+                textAlign: 'center',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+              }}
+            >
+              {risky && <AlertTriangle size={24} strokeWidth={2} color="#ff4444" aria-hidden="true" />}
+              <span style={{
                 background: risky
                   ? 'linear-gradient(135deg, #ff4444 0%, #ff0000 100%)'
                   : 'linear-gradient(135deg, #ffffff 0%, #a0a8ff 100%)',
                 WebkitBackgroundClip: 'text',
                 backgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                letterSpacing: '0.05em',
-                textAlign: 'center',
-              }}
-            >
-              {risky ? '⚠ Risky Quests' : 'Quest Generator'}
+              }}>
+                {risky ? 'Risky Quests' : 'Quest Generator'}
+              </span>
             </h1>
           </div>
 
@@ -166,9 +186,12 @@ export default function QuestGenerator() {
               cursor: 'pointer',
               letterSpacing: '0.05em',
               transition: 'all 0.2s',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
             }}
           >
-            {risky ? '⚠ Risky Mode ON' : '⚠ Risky Mode'}
+            <AlertTriangle size={16} strokeWidth={2} aria-hidden="true" /> {risky ? 'Risky Mode ON' : 'Risky Mode'}
           </button>
 
           {!risky && (
@@ -207,9 +230,12 @@ export default function QuestGenerator() {
                     cursor: 'pointer',
                     textTransform: 'capitalize',
                     transition: 'all 0.2s',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
                   }}
                 >
-                  {CATEGORY_ICONS[cat]} {cat}
+                  <CategoryIcon type={cat} /> {cat}
                 </button>
               ))}
             </div>
@@ -245,8 +271,10 @@ export default function QuestGenerator() {
               <p style={{ color: 'rgba(255,100,100,0.7)' }}>Failed to fetch a quest. Try again!</p>
             ) : quest ? (
               <>
-                <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>
-                  {risky ? '⚠️' : (CATEGORY_ICONS[quest.type] || '🎯')}
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem' }}>
+                  {risky
+                    ? <AlertTriangle size={48} strokeWidth={2} color="#ff4444" aria-hidden="true" />
+                    : <CategoryIcon type={quest.type} size={48} />}
                 </div>
                 <p style={{
                   fontSize: '1.3rem',
@@ -267,8 +295,11 @@ export default function QuestGenerator() {
                       color: '#a0a8ff',
                       fontSize: '0.75rem',
                       textTransform: 'capitalize',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
                     }}>
-                      {CATEGORY_ICONS[quest.type]} {quest.type}
+                      <CategoryIcon type={quest.type} /> {quest.type}
                     </span>
                   )}
                   <span style={{
@@ -278,8 +309,11 @@ export default function QuestGenerator() {
                     border: `1px solid ${risky ? 'rgba(255,50,50,0.2)' : 'rgba(255,255,255,0.08)'}`,
                     color: risky ? 'rgba(255,150,150,0.6)' : 'rgba(255,255,255,0.4)',
                     fontSize: '0.75rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
                   }}>
-                    👥 {quest.participants === 1 ? 'Solo' : `${quest.participants} people`}
+                    <Users size={16} strokeWidth={2} aria-hidden="true" /> {quest.participants === 1 ? 'Solo' : `${quest.participants} people`}
                   </span>
                   <span style={{
                     padding: '4px 12px',
@@ -288,8 +322,11 @@ export default function QuestGenerator() {
                     border: `1px solid ${getDifficultyColor(quest.accessibility, risky)}33`,
                     color: getDifficultyColor(quest.accessibility, risky),
                     fontSize: '0.75rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
                   }}>
-                    ⚡ {risky ? 'Risky' : getDifficultyLabel(quest.accessibility)}
+                    <Zap size={16} strokeWidth={2} aria-hidden="true" /> {risky ? 'Risky' : getDifficultyLabel(quest.accessibility)}
                   </span>
                 </div>
               </>
@@ -356,8 +393,11 @@ export default function QuestGenerator() {
             fontWeight: 600,
             marginBottom: '1.5rem',
             color: '#00ff88',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
           }}>
-            ✓ Completed Quests
+            <Check size={20} strokeWidth={2} aria-hidden="true" /> Completed Quests
           </h2>
           {completed.length === 0 ? (
             <p style={{ color: 'rgba(255,255,255,0.3)', textAlign: 'center', padding: '2rem' }}>
@@ -378,8 +418,11 @@ export default function QuestGenerator() {
                 }}>
                   <div>
                     <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.95rem' }}>{q.activity}</p>
-                    <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.75rem', marginTop: '4px' }}>
-                      {q.wasRisky ? '⚠️ Risky' : `${CATEGORY_ICONS[q.type]} ${q.type}`} · {q.completedAt}
+                    <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.75rem', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      {q.wasRisky
+                        ? <AlertTriangle size={16} strokeWidth={2} aria-hidden="true" />
+                        : <CategoryIcon type={q.type} />}
+                      {q.wasRisky ? 'Risky' : q.type} · {q.completedAt}
                     </p>
                   </div>
                   <button
@@ -388,14 +431,16 @@ export default function QuestGenerator() {
                       background: 'none',
                       border: 'none',
                       color: q.wasRisky ? '#ff4444' : '#00ff88',
-                      fontSize: '1.2rem',
                       cursor: 'pointer',
                       padding: '4px',
                       flexShrink: 0,
+                      display: 'flex',
+                      alignItems: 'center',
                     }}
                     title="Remove"
+                    aria-label="Remove"
                   >
-                    ✓
+                    <Check size={20} strokeWidth={2} aria-hidden="true" />
                   </button>
                 </div>
               ))}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Minus, Plus } from 'lucide-react';
 
 const DICE = [
   { sides: 4, label: 'D4', shape: 'triangle' },
@@ -171,33 +172,33 @@ export default function DiceCoin() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <button
               onClick={() => setDiceCount(c => Math.max(1, c - 1))}
+              aria-label="Decrease dice count"
               style={{
                 width: '44px', height: '44px',
                 borderRadius: '50%',
                 border: '1px solid rgba(255,255,255,0.1)',
                 background: 'transparent',
                 color: 'rgba(255,255,255,0.5)',
-                fontSize: '1.2rem',
                 cursor: 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}
-            >−</button>
+            ><Minus size={20} strokeWidth={2} aria-hidden="true" /></button>
             <span style={{ color: '#fff', fontSize: '1rem', minWidth: '60px', textAlign: 'center' }}>
               {diceCount}× {selectedDie.label}
             </span>
             <button
               onClick={() => setDiceCount(c => Math.min(10, c + 1))}
+              aria-label="Increase dice count"
               style={{
                 width: '44px', height: '44px',
                 borderRadius: '50%',
                 border: '1px solid rgba(255,255,255,0.1)',
                 background: 'transparent',
                 color: 'rgba(255,255,255,0.5)',
-                fontSize: '1.2rem',
                 cursor: 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}
-            >+</button>
+            ><Plus size={20} strokeWidth={2} aria-hidden="true" /></button>
           </div>
 
           {/* Die display */}

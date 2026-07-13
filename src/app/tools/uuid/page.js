@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Check, Minus, Plus } from 'lucide-react';
 
 function generateUUID() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
@@ -130,6 +131,7 @@ export default function UUIDGenerator() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <button
                 onClick={() => setCount(c => Math.max(1, c - 1))}
+                aria-label="Decrease count"
                 style={{
                   width: '44px', height: '44px',
                   borderRadius: '50%',
@@ -139,10 +141,11 @@ export default function UUIDGenerator() {
                   cursor: 'pointer',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}
-              >−</button>
+              ><Minus size={20} strokeWidth={2} aria-hidden="true" /></button>
               <span style={{ color: '#fff', minWidth: '24px', textAlign: 'center' }}>{count}</span>
               <button
                 onClick={() => setCount(c => Math.min(20, c + 1))}
+                aria-label="Increase count"
                 style={{
                   width: '44px', height: '44px',
                   borderRadius: '50%',
@@ -152,7 +155,7 @@ export default function UUIDGenerator() {
                   cursor: 'pointer',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}
-              >+</button>
+              ><Plus size={20} strokeWidth={2} aria-hidden="true" /></button>
             </div>
           </div>
 
@@ -210,9 +213,12 @@ export default function UUIDGenerator() {
                     fontSize: '0.75rem',
                     cursor: 'pointer',
                     padding: '4px 10px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
                   }}
                 >
-                  {copied === 'all' ? '✓ Copied all' : 'Copy all'}
+                  {copied === 'all' ? <><Check size={16} strokeWidth={2} aria-hidden="true" /> Copied all</> : 'Copy all'}
                 </button>
               )}
             </div>
@@ -241,6 +247,7 @@ export default function UUIDGenerator() {
                 </span>
                 <button
                   onClick={() => copyOne(id, i)}
+                  aria-label={copied === i ? 'Copied' : 'Copy'}
                   style={{
                     background: 'none',
                     border: '1px solid rgba(255,255,255,0.1)',
@@ -252,9 +259,11 @@ export default function UUIDGenerator() {
                     whiteSpace: 'nowrap',
                     flexShrink: 0,
                     transition: 'all 0.2s',
+                    display: 'flex',
+                    alignItems: 'center',
                   }}
                 >
-                  {copied === i ? '✓' : 'Copy'}
+                  {copied === i ? <Check size={16} strokeWidth={2} aria-hidden="true" /> : 'Copy'}
                 </button>
               </div>
             ))}

@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from 'framer-motion';
 import Link from 'next/link';
+import { ArrowDown } from 'lucide-react';
 import BentoGrid from './components/BentoGrid';
 
 export default function Home() {
@@ -70,9 +71,9 @@ export default function Home() {
           <motion.div
             animate={shouldReduceMotion ? { y: 0 } : { y: [0, 8, 0] }}
             transition={shouldReduceMotion ? { duration: 0.01 } : { duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-            style={{ fontSize: '1.2rem' }}
+            style={{ display: 'flex' }}
           >
-            ↓
+            <ArrowDown size={20} strokeWidth={2} aria-hidden="true" />
           </motion.div>
         </motion.div>
       </section>

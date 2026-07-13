@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { X, Check, Play, Pause, Plus, Minus, Image as ImageIcon, ArrowLeft } from 'lucide-react';
 import ForestBg from './ForestBg';
 
 const MODES = {
@@ -13,6 +14,24 @@ const MODES = {
 function fmt(secs) {
   const s = Math.abs(secs);
   return `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
+}
+
+function stepperStyle(color, disabled) {
+  return {
+    width: '44px',
+    height: '44px',
+    borderRadius: '50%',
+    border: `1px solid ${disabled ? 'rgba(255,255,255,0.06)' : color + '44'}`,
+    background: disabled ? 'rgba(255,255,255,0.02)' : `${color}18`,
+    color: disabled ? 'rgba(255,255,255,0.15)' : color,
+    fontSize: '1.1rem',
+    cursor: disabled ? 'not-allowed' : 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transition: 'all 0.2s',
+    flexShrink: 0,
+  };
 }
 
 export default function Pomodoro() {
@@ -55,6 +74,15 @@ export default function Pomodoro() {
   }
 
   function reset() { setTimeLeft(duration); setRunning(false); }
+
+  function adjustDuration(unit, direction) {
+    const delta = unit === 'minutes' ? direction * 60 : direction;
+    setDuration(prev => {
+      const next = Math.max(60, Math.min(99 * 60 + 59, prev + delta));
+      setTimeLeft(next);
+      return next;
+    });
+  }
 
   // ── Tasks ─────────────────────────────────────────────────────────────
   const [panelOpen, setPanelOpen] = useState(false);
@@ -120,14 +148,8 @@ export default function Pomodoro() {
     function onWheel(e) {
       if (!hoverRef.current || runningRef.current) return;
       e.preventDefault();
-      const delta = e.deltaY < 0 ? 1 : -1;
-      const side  = hoverRef.current;
-      const adj   = side === 'minutes' ? delta * 60 : delta;
-      setDuration(prev => {
-        const next = Math.max(60, Math.min(99 * 60 + 59, prev + adj));
-        setTimeLeft(next);
-        return next;
-      });
+      const direction = e.deltaY < 0 ? 1 : -1;
+      adjustDuration(hoverRef.current, direction);
     }
     el.addEventListener('wheel', onWheel, { passive: false });
     return () => el.removeEventListener('wheel', onWheel);
@@ -192,9 +214,13 @@ export default function Pomodoro() {
                 letterSpacing: '0.1em',
                 cursor: 'pointer',
                 transition: 'all 0.2s',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
               }}
             >
-              {panelOpen ? '✕ Tasks' : `Tasks${activeTasks.length ? ` (${activeTasks.length})` : ''}`}
+              {panelOpen && <X size={16} strokeWidth={2} aria-hidden="true" />}
+              {panelOpen ? 'Tasks' : `Tasks${activeTasks.length ? ` (${activeTasks.length})` : ''}`}
             </button>
           </div>
 
@@ -301,6 +327,55 @@ export default function Pomodoro() {
                 color: color,
                 opacity: 0.8,
               }}>{MODES[mode].label}</span>
+            </div>
+          </div>
+
+          {/* Duration steppers — touch/keyboard alternative to hover+scroll on the ring */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1.5rem', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <button
+                onClick={() => adjustDuration('minutes', -1)}
+                disabled={running}
+                aria-label="Decrease minutes by 1"
+                style={stepperStyle(color, running)}
+              ><Minus size={20} strokeWidth={2} aria-hidden="true" /></button>
+              <span style={{
+                fontSize: '0.7rem',
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                color: 'rgba(255,255,255,0.3)',
+                minWidth: '32px',
+                textAlign: 'center',
+              }}>Min</span>
+              <button
+                onClick={() => adjustDuration('minutes', 1)}
+                disabled={running}
+                aria-label="Increase minutes by 1"
+                style={stepperStyle(color, running)}
+              ><Plus size={20} strokeWidth={2} aria-hidden="true" /></button>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <button
+                onClick={() => adjustDuration('seconds', -1)}
+                disabled={running}
+                aria-label="Decrease seconds by 1"
+                style={stepperStyle(color, running)}
+              ><Minus size={20} strokeWidth={2} aria-hidden="true" /></button>
+              <span style={{
+                fontSize: '0.7rem',
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                color: 'rgba(255,255,255,0.3)',
+                minWidth: '32px',
+                textAlign: 'center',
+              }}>Sec</span>
+              <button
+                onClick={() => adjustDuration('seconds', 1)}
+                disabled={running}
+                aria-label="Increase seconds by 1"
+                style={stepperStyle(color, running)}
+              ><Plus size={20} strokeWidth={2} aria-hidden="true" /></button>
             </div>
           </div>
 
@@ -427,8 +502,11 @@ export default function Pomodoro() {
                     cursor: 'pointer',
                     whiteSpace: 'nowrap',
                     flexShrink: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
                   }}
-                >+ Add</button>
+                ><Plus size={16} strokeWidth={2} aria-hidden="true" /> Add</button>
               </div>
             </div>
 
@@ -461,6 +539,7 @@ export default function Pomodoro() {
                       <button
                         onClick={() => completeTask(task.id)}
                         title="Mark complete"
+                        aria-label="Mark complete"
                         style={{
                           width: 18, height: 18,
                           borderRadius: '50%',
@@ -469,10 +548,9 @@ export default function Pomodoro() {
                           cursor: 'pointer',
                           flexShrink: 0,
                           color: 'rgba(255,255,255,0.25)',
-                          fontSize: '0.58rem',
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
                         }}
-                      >✓</button>
+                      ><Check size={16} strokeWidth={2} aria-hidden="true" /></button>
 
                       <span style={{
                         fontSize: '0.85rem',
@@ -487,30 +565,36 @@ export default function Pomodoro() {
                       <button
                         onClick={() => toggleActive(task.id)}
                         title={isActive ? 'Pause' : 'Start'}
+                        aria-label={isActive ? 'Pause task' : 'Start task'}
                         style={{
                           background: 'transparent',
                           border: 'none',
                           color: isActive ? color : 'rgba(255,255,255,0.22)',
                           cursor: 'pointer',
-                          fontSize: '0.85rem',
                           padding: '2px 4px',
                           flexShrink: 0,
                           transition: 'color 0.2s',
+                          display: 'flex',
+                          alignItems: 'center',
                         }}
-                      >{isActive ? '⏸' : '▶'}</button>
+                      >{isActive
+                        ? <Pause size={16} strokeWidth={2} fill="currentColor" aria-hidden="true" />
+                        : <Play size={16} strokeWidth={2} fill="currentColor" aria-hidden="true" />}</button>
 
                       <button
                         onClick={() => deleteTask(task.id)}
+                        aria-label="Delete task"
                         style={{
                           background: 'transparent',
                           border: 'none',
                           color: 'rgba(255,255,255,0.13)',
                           cursor: 'pointer',
-                          fontSize: '0.7rem',
                           padding: '2px 4px',
                           flexShrink: 0,
+                          display: 'flex',
+                          alignItems: 'center',
                         }}
-                      >✕</button>
+                      ><X size={16} strokeWidth={2} aria-hidden="true" /></button>
                     </div>
 
                     {/* Timer row */}
@@ -566,7 +650,9 @@ export default function Pomodoro() {
                       borderRadius: '8px',
                       background: 'rgba(255,255,255,0.02)',
                     }}>
-                      <span style={{ color: '#43e97b', fontSize: '0.65rem', opacity: 0.55, flexShrink: 0 }}>✓</span>
+                      <span style={{ color: '#43e97b', opacity: 0.55, flexShrink: 0, display: 'flex' }}>
+                        <Check size={16} strokeWidth={2} aria-hidden="true" />
+                      </span>
                       <span style={{
                         fontSize: '0.8rem',
                         color: 'rgba(255,255,255,0.25)',
@@ -585,12 +671,14 @@ export default function Pomodoro() {
                       }}>{fmt(task.elapsed)}</span>
                       <button
                         onClick={() => deleteTask(task.id)}
+                        aria-label="Delete task"
                         style={{
                           background: 'transparent', border: 'none',
                           color: 'rgba(255,255,255,0.12)', cursor: 'pointer',
-                          fontSize: '0.65rem', padding: '2px', flexShrink: 0,
+                          padding: '2px', flexShrink: 0,
+                          display: 'flex', alignItems: 'center',
                         }}
-                      >✕</button>
+                      ><X size={16} strokeWidth={2} aria-hidden="true" /></button>
                     </div>
                   ))}
                 </div>
@@ -616,7 +704,7 @@ export default function Pomodoro() {
         alignItems: 'center',
         gap: '8px',
         transition: 'color 0.2s',
-      }}>← Back to TrashChute</Link>
+      }}><ArrowLeft size={16} strokeWidth={2} aria-hidden="true" /> Back to TrashChute</Link>
 
       {/* Wallpaper button (fixed, always on top) */}
       <div style={{ position: 'fixed', bottom: '2rem', right: '2rem', zIndex: 10 }}>
@@ -631,7 +719,8 @@ export default function Pomodoro() {
           backdropFilter: 'blur(12px)',
           color: 'rgba(255,255,255,0.5)',
           fontSize: '0.8rem', cursor: 'pointer', letterSpacing: '0.1em',
-        }}>🖼 Wallpaper</button>
+          display: 'flex', alignItems: 'center', gap: '6px',
+        }}><ImageIcon size={16} strokeWidth={2} aria-hidden="true" /> Wallpaper</button>
         {customBg && (
           <button onClick={() => setCustomBg(null)} style={{
             marginLeft: '8px', padding: '10px 18px', borderRadius: '50px',

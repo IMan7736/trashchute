@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { Image as ImageIcon } from 'lucide-react';
 
 const FORMATS = ['PNG', 'JPEG', 'WEBP', 'BMP', 'ICO'];
 
@@ -234,7 +235,7 @@ export default function ImageConverter() {
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem' }}>
-              <div style={{ fontSize: '2.5rem' }}>🖼</div>
+              <ImageIcon size={40} strokeWidth={2} color="rgba(255,255,255,0.3)" aria-hidden="true" />
               <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.95rem' }}>
                 Drop an image here or click to upload
               </p>

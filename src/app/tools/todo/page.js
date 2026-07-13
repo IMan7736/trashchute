@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Sparkle, X } from 'lucide-react';
 
 export default function Todos() {
   const [todos, setTodos] = useState([]);
@@ -51,12 +52,21 @@ export default function Todos() {
           fontWeight: 600,
           marginBottom: '1.5rem',
           textAlign: 'center',
-          background: 'linear-gradient(135deg, #ffffff 0%, #a0a8ff 100%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
           letterSpacing: '0.05em',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '8px',
         }}>
-          ✦ To-Do
+          <Sparkle size={24} strokeWidth={2} color="#a0a8ff" aria-hidden="true" />
+          <span style={{
+            background: 'linear-gradient(135deg, #ffffff 0%, #a0a8ff 100%)',
+            WebkitBackgroundClip: 'text',
+            backgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+          }}>
+            To-Do
+          </span>
         </h1>
 
         <div style={{ display: 'flex', gap: '8px', marginBottom: '1.5rem' }}>
@@ -127,16 +137,18 @@ export default function Todos() {
               </span>
               <button
                 onClick={() => deleteTodo(index)}
+                aria-label="Delete task"
                 style={{
                   background: 'none',
                   border: 'none',
                   color: 'rgba(255,100,100,0.6)',
-                  fontSize: '1.2rem',
                   cursor: 'pointer',
                   padding: '4px 8px',
+                  display: 'flex',
+                  alignItems: 'center',
                 }}
               >
-                ✕
+                <X size={20} strokeWidth={2} aria-hidden="true" />
               </button>
             </li>
           ))}
